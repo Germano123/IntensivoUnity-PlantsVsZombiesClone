@@ -7,11 +7,15 @@ public class GameManager : MonoBehaviour {
     public bool LevelStart { get; private set; }
     LevelController levelController;
 
+    #region Callbacks
+    public delegate void OnEndGame();
+    public OnEndGame onEndGame;
+    #endregion
+
     // Start is called before the first frame update
     void Start() {
         levelController = FindObjectOfType<LevelController>();
         LevelStart = false;
-        FindObjectOfType<CoinManager>().AddCoins(10);
     }
 
     // Update is called once per frame
@@ -24,5 +28,9 @@ public class GameManager : MonoBehaviour {
     public void StartLevel() {
         LevelStart = true;
         levelController.StartLevel();
+    }
+
+    public void EndGame() {
+        onEndGame?.Invoke();
     }
 }

@@ -27,6 +27,7 @@ public class CoinManager : MonoBehaviour {
         waveController = FindObjectOfType<WaveController>();
         waveController.onSpawEnemy += OnSpawnEnemy;
         waveController.onWaveStatusUpdate += OnWaveStatusUpdate;
+        AddCoins(5);
         coinCounter = CoinCounter();
     }
 

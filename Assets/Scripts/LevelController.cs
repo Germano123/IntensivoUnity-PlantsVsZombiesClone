@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour {
 
+    GameManager gameManager;
     WaveController waveController;
     CoinManager coinManager;
 
@@ -17,8 +18,11 @@ public class LevelController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        gameManager = FindObjectOfType<GameManager>();
         coinManager = FindObjectOfType<CoinManager>();
         waveController = FindObjectOfType<WaveController>();
+
+        gameManager.onEndGame += OnEndGame;
         waveController.onEnemiesCountUpdate += OnEnemiesCountUpdate;
         // TODO: get level from loader
         CurrentLevel = 1;
@@ -30,7 +34,7 @@ public class LevelController : MonoBehaviour {
 
     public void StartLevel() {
         if (waveController.WaveStatus == EWaveStatus.Waiting) {
-            Debug.Log($"Staterd Wave {CurrentLevel}");
+            // Debug.Log($"Started Wave {CurrentLevel}");
             onLevelStart?.Invoke(CurrentLevel);
             waveController.ReleaseWave(CurrentLevel-1);
             coinManager.AddCoins(coinLevelFactor * CurrentLevel);
@@ -43,7 +47,17 @@ public class LevelController : MonoBehaviour {
         }
     }
 
+    void OnEndGame() {
+        CharacterStats[] gamePieces = FindObjectsOfType<CharacterStats>();
+        foreach (CharacterStats piece in gamePieces) {
+            if (piece.gameObject.activeInHierarchy) {
+                piece.enabled = false;
+            }
+        }
+    }
+
     void OnDestroy() {
+        gameManager.onEndGame -= OnEndGame;
         waveController.onEnemiesCountUpdate -= OnEnemiesCountUpdate;    
     }
 }

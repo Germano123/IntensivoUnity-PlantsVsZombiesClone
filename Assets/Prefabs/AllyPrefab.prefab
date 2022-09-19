@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2461402908101744474}
   - component: {fileID: 2461402908101744477}
   - component: {fileID: 2461402908101744476}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Gfx
   m_TagString: Ally
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2461402908164705522}
   - component: {fileID: 2461402908164705523}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AllyPrefab
   m_TagString: Ally
   m_Icon: {fileID: 0}
@@ -156,9 +156,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf87e4de276b9354780fab2336336497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  damage: 0
-  speed: 0
-  attackRange: 0
-  attackSpeed: 0
   bulletPrefab: {fileID: 5377420510692971372, guid: ff58f0a9b04102544a0c495941fa4b80, type: 3}

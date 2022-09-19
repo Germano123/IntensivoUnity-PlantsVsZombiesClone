@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Zombie_C
   m_EditorClassIdentifier: 
   spr: {fileID: 21300000, guid: 5d51c9ff388d32242af84a6b63f81271, type: 3}
-  health: 7
-  damage: 4
+  health: 6
+  damage: 3
   speed: 0.6
   attackRange: 1
   attackSpeed: 1.8
-  coinValue: 3
+  coinValue: 4

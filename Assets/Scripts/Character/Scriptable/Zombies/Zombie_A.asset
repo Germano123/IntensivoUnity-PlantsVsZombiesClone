@@ -17,5 +17,5 @@ MonoBehaviour:
   damage: 1
   speed: 0.3
   attackRange: 1
-  attackSpeed: 1.5
+  attackSpeed: 1.25
   coinValue: 2

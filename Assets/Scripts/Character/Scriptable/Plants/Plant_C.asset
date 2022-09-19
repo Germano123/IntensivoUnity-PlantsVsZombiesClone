@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Plant_C
   m_EditorClassIdentifier: 
   spr: {fileID: 21300000, guid: a23a2ca341cc376409c3bd123ae0ad88, type: 3}
-  health: 8
-  damage: 2
+  health: 5
+  damage: 3
   speed: 0
   attackRange: 7
-  attackSpeed: 1
-  coinValue: 12
+  attackSpeed: 1.5
+  coinValue: 6

@@ -12,6 +12,8 @@ public class CharacterStats : MonoBehaviour, IDamageable, IHealable {
     public float AttackRange { get; private set; }
     public float AttackSpeed { get; private set; }
 
+    protected float lastAttack = 0f;
+
     #region Callbacks
     public delegate void OnDied(GameObject enemyGO);
     public OnDied onDied;
@@ -24,12 +26,12 @@ public class CharacterStats : MonoBehaviour, IDamageable, IHealable {
         Speed = charData.speed;
         AttackRange = charData.attackRange;
         AttackSpeed = charData.attackSpeed;
-        // TODO: set sprite
+        // set sprite
         SpriteRenderer gfx = transform.Find("Gfx").GetComponent<SpriteRenderer>();
         gfx.sprite = charData.spr;
     }
 
-    public void TakeDamage(int amount) {
+    public virtual void TakeDamage(int amount) {
         // Debug.Log($"{transform.name} take {amount} of damage.");
         Health -= amount;
         if (Health <= 0) {
