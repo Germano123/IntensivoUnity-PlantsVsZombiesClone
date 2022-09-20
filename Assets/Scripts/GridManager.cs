@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour {
 
-    public int[,] Grid { get; private set; }
+    public bool[,] Grid { get; private set; }
     // how many rows and columns
     [SerializeField] int gridRows;
     [SerializeField] int gridColumns;
@@ -20,28 +20,52 @@ public class GridManager : MonoBehaviour {
         StartGrid();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
+    void StartGrid() {
+        Grid = new bool[gridRows,gridColumns];
+        for(int i = 0; i < gridRows; i++) {
+            for(int j = 0; j < gridColumns; j++) {
+                Grid[i, j] = false;
+            }
+        }
     }
 
-    void StartGrid() {
-        Grid = new int[gridRows,gridColumns];
+    public Vector2Int GetGridCoordinate(float x, float y) {
+        int xPos = (int)((transform.position.x - x) / gridCellWidth);
+        int yPos = (int)((transform.position.y - y) / gridCellHeight);
+        return new Vector2Int(xPos, yPos);
+    }
+
+    bool InsideGridDimension(float x, float y) {
+        // retrun true if the given x and y are inside grid dimensions
+        if (x >= transform.position.x && y <= transform.position.y &&
+        x <= transform.position.x + gridRows * gridCellWidth &&
+        y >= transform.position.y + gridColumns * -gridCellHeight) return true;
+        return false;
     }
 
     public Vector3 GetGridPosition(float xPos, float yPos) {
-        // if xPos and yPos inside grid dimensions
         // Debug.Log($"X and Y Pos are: ({xPos}, {yPos})");
-        if (xPos >= transform.position.x && yPos <= transform.position.y &&
-        xPos <= transform.position.x + gridRows * gridCellWidth &&
-        yPos >= transform.position.y + gridColumns * -gridCellHeight) {
-            xPos = (int)((transform.position.x - xPos) / gridCellWidth);
-            yPos = (int)((transform.position.y - yPos) / gridCellHeight);
+        if (InsideGridDimension(xPos, yPos)) {
+            Vector2Int pos = GetGridCoordinate(xPos, yPos);
             // Debug.Log($"Inside Grid with X, Y: ({-xPos}, {-yPos})");
-            xPos = transform.position.x + xPos * -GridOffset.x + GridOffset.x/2;
-            yPos = transform.position.y + yPos * -GridOffset.y - GridOffset.y/2;
+            xPos = transform.position.x + pos.x * -GridOffset.x + GridOffset.x/2;
+            yPos = transform.position.y + pos.y * -GridOffset.y - GridOffset.y/2;
             return new Vector3(xPos, yPos, 0f);
         } else return Vector3.zero;
+    }
+
+    public bool HasAllyAt(int x, int y) {
+        return Grid[Mathf.Abs(x), Mathf.Abs(y)];
+    }
+
+    public void AddAllyAt(int x, int y) {
+        if (!HasAllyAt(x, y)) {
+            Grid[Mathf.Abs(x), Mathf.Abs(y)] = true;
+        }
+    }
+
+    public void RemoveAllyAt(int x, int y) {
+        Grid[Mathf.Abs(x), Mathf.Abs(y)] = false;
     }
 
     void OnDrawGizmos() {

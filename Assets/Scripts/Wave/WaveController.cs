@@ -43,8 +43,10 @@ public class WaveController : MonoBehaviour {
     }
 
     public void ReleaseWave(int waveIndex) {
-        UpdateWaveStatus(EWaveStatus.Releasing);
-        StartCoroutine(Cor_ReleaseWave(waveIndex));
+        if (waveIndex <= waves.Length) {
+            UpdateWaveStatus(EWaveStatus.Releasing);
+            StartCoroutine(Cor_ReleaseWave(waveIndex));
+        }
     }
 
     IEnumerator Cor_ReleaseWave(int waveIndex) {

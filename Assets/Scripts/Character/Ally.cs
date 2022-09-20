@@ -35,6 +35,13 @@ public class Ally : CharacterStats {
         // Debug.Log($"Plant {transform.name} Shoot.");
     }
 
+    protected override void Die() {
+        base.Die();
+        GridManager gridManager = FindObjectOfType<GridManager>();
+        Vector2Int pos = gridManager.GetGridCoordinate(transform.position.x, transform.position.y);
+        gridManager.RemoveAllyAt(pos.x, pos.y);
+    }
+
     void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + transform.right * AttackRange);

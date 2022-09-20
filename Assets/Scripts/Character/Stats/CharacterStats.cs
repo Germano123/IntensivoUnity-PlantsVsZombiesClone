@@ -43,7 +43,7 @@ public class CharacterStats : MonoBehaviour, IDamageable, IHealable {
         // Debug.Log($"{transform.name} healed {amount} of health.");
     }
 
-    void Die() {
+    protected virtual void Die() {
         onDied?.Invoke(gameObject);
         Destroy(gameObject);
     }

@@ -15,6 +15,8 @@ public class AllyPlacerController : MonoBehaviour {
 
     void Start() {
         GameObject allyGO = Instantiate(allyPrefab, transform);
+        BoxCollider2D allyCol = allyGO.GetComponentInChildren<BoxCollider2D>();
+        allyCol.enabled = false;
         allyPreview = allyGO.GetComponent<Ally>();
         allyPreview.enabled = false;
         allyPreview.gameObject.SetActive(false);
@@ -43,11 +45,15 @@ public class AllyPlacerController : MonoBehaviour {
                 // if click was in grid
                 if (pos.x != 0f && pos.y != 0f) {
                     // if can buy current selected ally
-                    if (coinManager.RemoveCoins(allyPreview.CoinValue)) {
-                        // instantiate new ally in the mouse clamped position in grid
-                        GameObject allyGO = Instantiate(allyPrefab, pos, Quaternion.identity);
-                        allyGO.transform.SetParent(alliesParent);
-                        allyGO.GetComponent<Ally>().SetStats(charData);
+                    Vector2Int gridCoordinate = gridManager.GetGridCoordinate(pos.x, pos.y);
+                    if (!gridManager.HasAllyAt(gridCoordinate.x, gridCoordinate.y)) {
+                        if (coinManager.RemoveCoins(allyPreview.CoinValue)) {
+                            // instantiate new ally in the mouse clamped position in grid
+                            GameObject allyGO = Instantiate(allyPrefab, pos, Quaternion.identity);
+                            allyGO.transform.SetParent(alliesParent);
+                            allyGO.GetComponent<Ally>().SetStats(charData);
+                            gridManager.AddAllyAt(gridCoordinate.x, gridCoordinate.y);
+                        }
                     }
                 }
                 ResetPreview();
